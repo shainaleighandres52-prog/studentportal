@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lens & Light — Photography Portfolio</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #0c0c0c;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.6;
+    }
+
+    /* NAVIGATION */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 25px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(12, 12, 12, 0.8);
+      backdrop-filter: blur(12px);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      letter-spacing: 2px;
+      font-weight: 500;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 35px;
+      list-style: none;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: color .3s;
+    }
+
+    nav a:hover {
+      color: #c9a66b;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 7% 80px;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.75), rgba(0,0,0,.15)),
+        url("https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=2000&q=90")
+        center/cover;
+    }
+
+    .hero-content {
+      max-width: 750px;
+    }
+
+    .hero small {
+      color: #c9a66b;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      font-size: 12px;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(65px, 10vw, 140px);
+      font-weight: 400;
+      line-height: .85;
+      margin: 25px 0;
+    }
+
+    .hero p {
+      max-width: 500px;
+      color: #ddd;
+      font-size: 15px;
+      font-weight: 300;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      margin-top: 35px;
+      padding: 15px 30px;
+      border: 1px solid #fff;
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 11px;
+      transition: .3s;
+    }
+
+    .hero-btn:hover {
+      background: #fff;
+      color: #111;
+    }
+
+    /* GENERAL */
+    section {
+      padding: 110px 7%;
+    }
+
+    .section-title {
+      margin-bottom: 55px;
+    }
+
+    .section-title span {
+      color: #c9a66b;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+    }
+
+    .section-title h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 60px;
+      font-weight: 400;
+      margin-top: 5px;
+    }
+
+    /* FILTER */
+    .filters {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 35px;
+    }
+
+    .filter-btn {
+      background: transparent;
+      color: #aaa;
+      border: 1px solid #333;
+      padding: 10px 20px;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 2px;
+      transition: .3s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: #c9a66b;
+      color: #111;
+      border-color: #c9a66b;
+    }
+
+    /* GALLERY */
+    .gallery {
+      columns: 3 300px;
+      column-gap: 18px;
+    }
+
+    .gallery-item {
+      position: relative;
+      margin-bottom: 18px;
+      overflow: hidden;
+      cursor: pointer;
+      break-inside: avoid;
+      transition: .4s;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      transition: transform .7s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(transparent 50%, rgba(0,0,0,.85));
+      opacity: 0;
+      transition: .4s;
+      display: flex;
+      align-items: flex-end;
+      padding: 25px;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .gallery-overlay h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+    }
+
+    /* ABOUT */
+    .about {
+      background: #111;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-image img {
+      width: 100%;
+      max-height: 650px;
+      object-fit: cover;
+    }
+
+    .about-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 65px;
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: 25px;
+    }
+
+    .about-text p {
+      color: #aaa;
+      font-size: 15px;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    .signature {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 35px;
+      font-style: italic;
+      color: #c9a66b;
+      margin-top: 30px;
+    }
+
+    /* SERVICES */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .service {
+      border: 1px solid #292929;
+      padding: 40px 30px;
+      transition: .3s;
+    }
+
+    .service:hover {
+      border-color: #c9a66b;
+      transform: translateY(-5px);
+    }
+
+    .service-number {
+      color: #c9a66b;
+      font-size: 12px;
+    }
+
+    .service h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 400;
+      margin: 20px 0 10px;
+    }
+
+    .service p {
+      color: #888;
+      font-size: 13px;
+    }
+
+    /* CONTACT */
+    .contact {
+      background: #111;
+      text-align: center;
+    }
+
+    .contact h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(55px, 8vw, 100px);
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .contact p {
+      color: #999;
+      max-width: 500px;
+      margin: 25px auto;
+    }
+
+    .contact-btn {
+      display: inline-block;
+      background: #c9a66b;
+      color: #111;
+      padding: 16px 35px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 11px;
+      margin-top: 15px;
+      transition: .3s;
+    }
+
+    .contact-btn:hover {
+      background: #fff;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 30px 7%;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #222;
+      color: #666;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.95);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+    }
+
+    .lightbox.show {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+
+    .close {
+      position: absolute;
+      top: 25px;
+      right: 35px;
+      font-size: 40px;
+      font-weight: 200;
+      cursor: pointer;
+      color: white;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav {
+        padding: 20px;
+      }
+
+      nav ul {
+        display: none;
+      }
+
+      .hero {
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+
+      section {
+        padding: 80px 25px;
+      }
+
+      .section-title h2 {
+        font-size: 48px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .about-text h2 {
+        font-size: 52px;
+      }
+
+      .services {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery {
+        columns: 2 150px;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery {
+        columns: 1;
+      }
+
+      .hero h1 {
+        font-size: 70px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="logo">LENS & LIGHT</div>
+
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- HERO -->
+  <header class="hero" id="home">
+    <div class="hero-content">
+      <small>Photographer & Visual Artist</small>
+
+      <h1>
+        Stories<br>
+        Through<br>
+        Light.
+      </h1>
+
+      <p>
+        Capturing authentic moments, beautiful places, and unforgettable
+        stories through the art of photography.
+      </p>
+
+      <a href="#portfolio" class="hero-btn">
+        Explore Portfolio
+      </a>
+    </div>
+  </header>
+
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+
+    <div class="section-title">
+      <span>Selected Work</span>
+      <h2>Portfolio</h2>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="portrait">Portraits</button>
+      <button class="filter-btn" data-filter="travel">Travel</button>
+      <button class="filter-btn" data-filter="nature">Nature</button>
+      <button class="filter-btn" data-filter="wedding">Weddings</button>
+    </div>
+
+    <div class="gallery">
+
+      <div class="gallery-item" data-category="portrait">
+        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=85" alt="Portrait photography">
+        <div class="gallery-overlay">
+          <h3>Quiet Moments</h3>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="nature">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=85" alt="Mountain landscape">
+        <div class="gallery-overlay">
+          <h3>Into The Wild</h3>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="travel">
+        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=900&q=85" alt="Travel photography">
+        <div class="gallery-overlay">
+          <h3>Wanderlust</h3>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="wedding">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=85" alt="Wedding photography">
+        <div class="gallery-overlay">
+          <h3>Forever Begins</h3>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="nature">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=85" alt="Forest photography">
+        <div class="gallery-overlay">
+          <h3>Into The Forest</h3>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="portrait">
+        <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=900&q=85" alt="Fashion portrait">
+        <div class="gallery-overlay">
+          <h3>Golden Hour</h3>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="travel">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=85" alt="Mountain travel">
+        <div class="gallery-overlay">
+          <h3>Above The Clouds</h3>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="wedding">
+        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=85" alt="Wedding couple">
+        <div class="gallery-overlay">
+          <h3>Two Souls</h3>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+
+    <div class="about-grid">
+
+      <div class="about-image">
+        <img
+          src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&w=1200&q=85"
+          alt="Photographer with camera">
+      </div>
+
+      <div class="about-text">
+
+        <div class="section-title">
+          <span>The Photographer</span>
+        </div>
+
+        <h2>
+          Behind<br>
+          The Lens
+        </h2>
+
+        <p>
+          I'm Alex — a photographer passionate about capturing the
+          emotions and small details that make every story unique.
+        </p>
+
+        <p>
+          From intimate portraits to breathtaking landscapes, my goal
+          is to create photographs that feel timeless, honest and
+          deeply personal.
+        </p>
+
+        <div class="signature">
+          — Alex Morgan
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- SERVICES -->
+  <section id="services">
+
+    <div class="section-title">
+      <span>What I Do</span>
+      <h2>Services</h2>
+    </div>
+
+    <div class="services">
+
+      <div class="service">
+        <span class="service-number">01</span>
+        <h3>Portraits</h3>
+        <p>
+          Natural and expressive portrait sessions designed
+          to capture your personality.
+        </p>
+      </div>
+
+      <div class="service">
+        <span class="service-number">02</span>
+        <h3>Weddings</h3>
+        <p>
+          Authentic wedding photography focused on emotions,
+          connections and unforgettable moments.
+        </p>
+      </div>
+
+      <div class="service">
+        <span class="service-number">03</span>
+        <h3>Travel</h3>
+        <p>
+          Editorial and commercial travel photography
+          inspired by landscapes and cultures.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+
+    <div class="section-title">
+      <span>Let's Work Together</span>
+    </div>
+
+    <h2>
+      Have a story<br>
+      to tell?
+    </h2>
+
+    <p>
+      Let's create something beautiful together.
+      Get in touch and tell me about your project.
+    </p>
+
+    <a href="mailto:hello@example.com" class="contact-btn">
+      Get In Touch
+    </a>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Lens & Light</span>
+    <span>Photography Portfolio</span>
+  </footer>
+
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <span class="close">&times;</span>
+    <img id="lightbox-img" src="" alt="Expanded photograph">
+  </div>
+
+
+  <script>
+    /* PORTFOLIO FILTER */
+
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const galleryItems = document.querySelectorAll(".gallery-item");
+
+    filterButtons.forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        filterButtons.forEach(btn =>
+          btn.classList.remove("active")
+        );
+
+        button.classList.add("active");
+
+        const filter = button.dataset.filter;
+
+        galleryItems.forEach(item => {
+
+          if (filter === "all" || item.dataset.category === filter) {
+            item.style.display = "block";
+          } else {
+            item.style.display = "none";
+          }
+
+        });
+
+      });
+
+    });
+
+
+    /* LIGHTBOX */
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const closeButton = document.querySelector(".close");
+
+    galleryItems.forEach(item => {
+
+      item.addEventListener("click", () => {
+
+        const image = item.querySelector("img");
+
+        lightboxImg.src = image.src;
+        lightbox.classList.add("show");
+
+      });
+
+    });
+
+    closeButton.addEventListener("click", () => {
+      lightbox.classList.remove("show");
+    });
+
+    lightbox.addEventListener("click", (e) => {
+
+      if (e.target === lightbox) {
+        lightbox.classList.remove("show");
+      }
+
+    });
+
+    document.addEventListener("keydown", (e) => {
+
+      if (e.key === "Escape") {
+        lightbox.classList.remove("show");
+      }
+
+    });
+  </script>
+
+</body>
+</html>
